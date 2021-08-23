@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue2.0源码解析</title>
+</head>
+<body>
+  <script src="/dist/vue.js"></script>
+  <!--
+    模板编译原理 AST语法树 (树的遍历) 先标识出html -> js语法
+
+    1. 需要将模板变成一个render函数, render(){ return _l(3, _c('li', {}, name)) }
+    2. 需要去当前实例上取值 with
+    3. 虚拟dom -> (其实就是一个对象), 可以描述dom结构(diff算法)
+    4. 要生成一个真实的dom结构扔到页面中
+  -->
+  <div id="app" a="1" b='2'>
+    <span style="color:red;font-weight:700;">{{name}} aa {{age}} haha<a>hello</a></span>
+  </div>
+  <script>
+    // 响应式数据变化, 数据代理或者数据劫持(Object.defineProperty)
+    // vue2 基于options Api, 所有的属性都在 options, 缺点: 这种方式没办法 tree-shaking
+    // vue中数组中的对象, 如果变化了, 也需要视图更新
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          name: 'Jelly',
+        }
+      }
+    })
+  </script>
+</body>
+</html>
