@@ -5,6 +5,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vue2.0源码解析</title>
+  <style>
+    .green{
+      color: green;
+    }
+  </style>
 </head>
 <body>
   <script src="/dist/vue.js"></script>
@@ -12,12 +17,16 @@
     模板编译原理 AST语法树 (树的遍历) 先标识出html -> js语法
 
     1. 需要将模板变成一个render函数, render(){ return _l(3, _c('li', {}, name)) }
+        template模板 => ast语法树(描述语法的) => render函数 => 虚拟dom
     2. 需要去当前实例上取值 with
     3. 虚拟dom -> (其实就是一个对象), 可以描述dom结构(diff算法)
     4. 要生成一个真实的dom结构扔到页面中
   -->
   <div id="app" a="1" b='2'>
-    <span style="color:red;font-weight:700;">{{name}} aa {{age}} haha<a>hello</a></span>
+    <ul style="color:red;font-weight:700;">
+      <li>{{name}},<a>hello</a></li>
+      <li class="green">haha {{age}}, <a>world</a></li>
+    </ul>
   </div>
   <script>
     // 响应式数据变化, 数据代理或者数据劫持(Object.defineProperty)
@@ -28,9 +37,17 @@
       data() {
         return {
           name: 'Jelly',
+          age: 14,
+          address: '上海'
         }
       }
     })
+    setTimeout(() => {
+      vm.name = '测试'
+      vm.age = 18
+      // vm._update(vm._render())
+    }, 1000)
+    // 这里取值没有依赖模板, 所以不需要依赖收集
   </script>
 </body>
 </html>

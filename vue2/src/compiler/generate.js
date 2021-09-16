@@ -37,13 +37,14 @@ function gen(node) { // 区分是元素还是文本
       let tokens = [];
       let match;
       let index = 0;
-      let lastIndex = defaultTagRE.lastIndex;
+      let lastIndex = defaultTagRE.lastIndex = 0;
       while(match = defaultTagRE.exec(text)) {
         // {{name}} aa {{age}} haha
         index = match.index
         if(index > lastIndex) {
           tokens.push(JSON.stringify(text.slice(lastIndex, index)))
         }
+        
         tokens.push(`_s(${match[1].trim()})`);
         lastIndex = index + match[0].length;
       }
@@ -61,7 +62,6 @@ function gen(node) { // 区分是元素还是文本
 export function generate(el) {
   // 转换成render代码
   let children = genChildren(el);
-
   let code = `_c('${el.tag}',${
     el.attrs.length? genProps(el.attrs):'undefined'
   }${
@@ -82,7 +82,7 @@ render() {
       'span',
       { style: { color: 'red' } },
       _s(_v(name)),
-      _c('a', {}, _v('hello'))
+      _c('a', undefined, _v('hello'))
     )
   )
 }

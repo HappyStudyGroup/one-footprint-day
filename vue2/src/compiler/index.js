@@ -5,6 +5,9 @@ import { parseHTML } from "./parse";
 export function compileToFunctions(template) {
   let root = parseHTML(template);
   let code = generate(root); // 生成代码
-  console.log(code)
-  // `with(this){return ${code}}`
+
+  let render = `with(this){return ${code}}`
+  let fn = new Function(render); // 可以让字符串变成函数
+
+  return fn
 }

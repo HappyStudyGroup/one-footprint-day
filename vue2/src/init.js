@@ -1,4 +1,5 @@
 import { compileToFunctions } from "./compiler/index.js";
+import { mountComponent } from "./lifecycle.js";
 import { initState } from "./state";
 
 export function initMixin(Vue) {
@@ -16,6 +17,7 @@ export function initMixin(Vue) {
     el = document.querySelector(el);
     const vm = this;
     const options = vm.$options
+    vm.$options.el = el;
     // 如果有render方法, 直接使用
     // 如果没有render, 有template
     // 没有render, 也没有template, 去找外部模板
@@ -34,7 +36,7 @@ export function initMixin(Vue) {
       options.render = render;
     }
 
-    // mountComponent(vm, el); // 组件挂载
+    mountComponent(vm, el); // 组件挂载
   }
 }
 
