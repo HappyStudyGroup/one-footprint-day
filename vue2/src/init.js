@@ -1,6 +1,7 @@
-import { compileToFunctions } from "./compiler/index.js";
-import { mountComponent } from "./lifecycle.js";
-import { initState } from "./state";
+import {compileToFunctions} from "./compiler/index";
+import {mountComponent} from "./lifecycle.js";
+import {initState} from "./state";
+import {nextTick} from "./util/index";
 
 export function initMixin(Vue) {
   Vue.prototype._init = function(options) {
@@ -13,6 +14,7 @@ export function initMixin(Vue) {
       vm.$mount(vm.$options.el);
     }
   }
+  Vue.prototype.$nextTick = nextTick;
   Vue.prototype.$mount = function(el) {
     el = document.querySelector(el);
     const vm = this;
@@ -32,8 +34,7 @@ export function initMixin(Vue) {
         template = el.outerHTML;
       }
       // 如何将模板编译成render函数
-      const render = compileToFunctions(template);
-      options.render = render;
+      options.render = compileToFunctions(template);
     }
 
     mountComponent(vm, el); // 组件挂载

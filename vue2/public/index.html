@@ -26,28 +26,40 @@
     <ul style="color:red;font-weight:700;">
       <li>{{name}},<a>hello</a></li>
       <li class="green">haha {{age}}, <a>world</a></li>
+      <li>{{arr}}</li>
     </ul>
   </div>
   <script>
     // 响应式数据变化, 数据代理或者数据劫持(Object.defineProperty)
     // vue2 基于options Api, 所有的属性都在 options, 缺点: 这种方式没办法 tree-shaking
     // vue中数组中的对象, 如果变化了, 也需要视图更新
+    // vue更新原理, 就是通过nextTick 异步执行更新视图逻辑
     const vm = new Vue({
       el: '#app',
       data() {
         return {
           name: 'Jelly',
           age: 14,
-          address: '上海'
+          address: '上海',
+          // JSON.stringify()->只要是对象都会更新
+          // 内部会给arr属性增加依赖, 但是我们更改数组时不会去通知更新
+          // arr: [1,2,3]
+          // 外层数组进行了依赖收集, 但是里层数组没有
+          arr: [[1,2,3]]
         }
       }
     })
     setTimeout(() => {
-      vm.name = '测试'
-      vm.age = 18
-      // vm._update(vm._render())
+      // 这里取值没有依赖模板, 所以不需要依赖收集
+      // vm.name = '测试'
+      // vm.$nextTick(() => {
+      //   console.log(vm.$options.el.innerHTML)
+      // })
+      // vm._update(vm._render()); // 强制更新的方法
+      
+      // 数组的依赖收集
+      vm.arr[0].push(56)
     }, 1000)
-    // 这里取值没有依赖模板, 所以不需要依赖收集
   </script>
 </body>
 </html>

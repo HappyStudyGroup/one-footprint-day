@@ -1,4 +1,5 @@
 import { popTarget, pushTarget } from "./dep";
+import { queueWatcher } from "./schedular";
 
 let id = 0;
 class Watcher {
@@ -27,12 +28,15 @@ class Watcher {
       dep.addSub(this)
     }
   }
-  update() {
-    this.get()
+  run() {
+    this.get();
+  }
+  update() { // 如果多次更改同一个数据, 我需要只触发一次(防抖)
+    // this.get();  // 会不停的重新渲染
+    queueWatcher(this);
   }
 
   // 当属性取值时, 需要记住这个watcher, 数据变化时, 去执行自己记住的watcher
 }
-
 
 export default Watcher
