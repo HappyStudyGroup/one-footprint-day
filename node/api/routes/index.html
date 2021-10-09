@@ -8,11 +8,85 @@
 </head>
 <body>
   <div class="wrapper">
-    node连接数据库
+    <button id="getData">开始连接数据库</button>
+
+    <form>
+      <label for="姓名">姓名:
+        <input type="text" id="user-name" >
+      </label><br>
+      <label for="性别">性别:
+        <input type="text" id="user-gender" >
+      </label><br>
+      <label for="年龄">年龄:
+        <input type="text" id="user-age" >
+      </label><br>
+      <label for="地址">地址:
+        <input type="text" id="user-address" >
+      </label><br>
+      <input type="text" style="display:none" >
+      <button id="submit" type="submit">提交到数据库</button>
+    </form>
   </div>
+  <script type="text/javascript">
+    function h (type, url, params) {
+      return new Promise((resolve, reject) => {
+        let h = null;
+        if (window.XMLHttpRequest) {// code for all new browsers
+          h = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {// code for IE5 and IE6
+          h = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if (h != null) {
+          h.onreadystatechange = function() {
+            if (h.readyState === 4 && h.status === 200) {// 4 = "loaded"; 200 = OK
+              console.log('请求成功', JSON.parse(h.response))
+              resolve(JSON.parse(h.response))
+            }
+          }
+          // 请求结束
+          h.onloadend = e => {
+            console.log('request loadend');
+          };
+          // 请求出错
+          h.onerror = e => {
+            console.log('request error');
+            reject(e)
+          };
+          h.open(type, url, true);
+          h.send(null);
+        } else {
+          alert("Your browser does not support XMLHTTP.");
+        }
+      })
+    }
+    window.http = h;
+  </script>
   <script>
-    var xhttp = new XMLHttpRequest()
-    
+    const btn = document.getElementById('getData');
+    const name = document.getElementById('user-name');
+    const gender = document.getElementById('user-gender');
+    const age = document.getElementById('user-age');
+    const address = document.getElementById('user-address');
+    const submit = document.getElementById(('submit'));
+    btn.onclick = async function () {
+      console.log('开始连接...')
+      const { list = [] } = await http('get', 'http://192.168.110.96:3434/api')
+      console.log(list)
+      if(list.length) {
+        name.value = list[0]['user_name'];
+        gender.value = list[0]['gender']
+        age.value = list[0]['age']
+        address.value = list[0]['address']
+      }
+      console.log('连接结束')
+    }
+
+    submit.onclick = async function() {
+      console.log('开始新增数据...')
+      const { list = [] } = await http('get', 'http://192.168.110.96:3434/add')
+      console.log('新增结束...')
+    }
+
   </script>
 </body>
 </html>

@@ -1,15 +1,15 @@
-var http = require('http')
-var fs = require('fs')
-var express = require('express')
-var path = require('path')
-var mysql = require('../utils/mysql')
+const http = require('http')
+const fs = require('fs')
+const express = require('express')
+const path = require('path')
+let mysql = require('../utils/mysql')
 
 
-var indexRouter = require('./routes/index');
+// let indexRouter = require('./routes/index');
 // var usersRoute = require('./routes/users');
 
 
-var app = express()
+let app = express()
 const cors = require('cors');
 app.use(cors())
 
@@ -32,7 +32,6 @@ app.all('*', function(req, res, next) {             //设置跨域访问
 });
 
 // 接口
-// app.get('/', indexRouter)
 app.get('/', function(req, res) {
   if(req.url === '/') {
     res.writeHead(200, { 'Content-Type': 'text/html' })
@@ -45,7 +44,43 @@ app.get('/', function(req, res) {
     })
   }
 })
+app.get('/api', function(req, res) {
+  let sql = `SELECT * FROM user`;
+  let sqlArr = [];
+  let callback = (err, data) => {
+    if(err) {
+      console.log('连接出错了')
+    }else {
+      res.send({ 'list': data })
+    }
+  }
+  mysql.sqlConnect(sql, sqlArr, callback)
+})
 
-app.listen(3434, console.log("application is start at port 3434"));
+let index = 0;
+const table = 'user';
+let name = '小红' + index;
+let gender = index % 2 === 0 ? 'female' : 'male';
+let age = index + 10;
+let address = ['', '北京市', '河北省', '西安市', '江苏省'][Math.random() + 3];
+
+app.get('/add', function(req, res) {
+  index++;
+  let sql = `insert into ${table} ('user_name', 'gender', 'age', 'address') values(${name}, ${gender}, ${age}, ${address})`
+  let sqlArr = []
+  let callback = (err, data) => {
+    if(err) {
+      console.log('连接出错了')
+    }else {
+      res.send('mysql成功新增数据!')
+    }
+  }
+  mysql.sqlConnect(sql, sqlArr, callback)
+})
+
+
+let server = app.listen(3434, function() {
+  console.log(server.address(), "application is start at port 3434")
+});
 
 module.exports = app;

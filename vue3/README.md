@@ -1,4 +1,36 @@
-#### 3. vue3.0
+#### 手写Vue3响应式原理
+
+##### 一. 搭建rollup开发环境
+
+```bash
+npm install typescript rollup rollup-plugin-typescript2 @rollup/plugin-node-resolve @rollup/plugin-replace rollup-plugin-serve -D
+```
+
+| 包名                        | 功能                  |
+| --------------------------- | --------------------- |
+| rollup                      | 打包工具              |
+| rollup-plugin-typescript2   | 解析ts插件            |
+| @rollup/plugin-node-resolve | 解析第三方模块        |
+| @rollup/plugin-replace      | process.env等语法替换 |
+| rollup-plugin-serve         | 启动本地服务插件      |
+
+##### 二. 配置打包环境
+
+```bash
+npx tsc --init
+```
+
+rollup配置文件
+
+```js
+import 
+```
+
+
+
+
+
+#### api
 >`切记`: 父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。
 
 #### setup 组件创建前触发, 包含 props, context 两个参数
