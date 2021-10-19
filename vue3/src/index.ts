@@ -1,3 +1,5 @@
-const str:string = 'hello'
+export * from './reactivity/index'
 
-console.log(str)
+
+export * from './runtime-dom/index'
+export * from './runtime-core/index'

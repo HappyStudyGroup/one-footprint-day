@@ -8,17 +8,51 @@
 </head>
 <body>
   <div id="app"></div>
-  <!-- <script src="/vue3/dist/vue.js"></script> -->
-  <script src="/vue3/node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+  <!-- <script src="/dist/vue.js"></script>
+  <script src="/node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
   <script>
-    const { reactive, effect, ref, computed, toRefs } = VueReactivity;
-    const state = reactive({ name: 'zf', age: 18, address: '上海' })
-
+    const { reactive, effect, ref, computed } = VueReactivity;
+    // const state = reactive({ name: 'zf', age: 18, address: '上海' })
+    const state = reactive([1, 2, 3])
     effect(() => {
       console.log('ok')
-      app.innerHTML = `${state.name} 今年 ${state.age} 岁了`
+      // app.innerHTML = `${state.name} 今年 ${state.age} 岁了`
+      // app.innerHTML = state[2]
+      app.innerHTML = state
     })
+    // 当effect 函数中依赖的数据发生改变时， effect会重新执行
+    setTimeout(() => {
+      // state.name = '回龙观'
+      // state.address = '回龙观'
+      // state.length = 1
+      state[10] = 1
+    }, 1000)
 
+    // computed 只有取值时才会执行
+  </script> -->
+
+  <!-- <script src="/node_modules/vue/dist/vue.global.js"></script> -->
+  <script src="/dist/vue.js"></script>
+  <script>
+    let { createApp, reactive, h } = Vue;
+    let App = {
+      setup() { // 返回一个渲染函数
+        let state = reactive({ name: 'zf', age: 18 }); // proxy
+        setTimeout(() => {
+          state.name = '回龙观'
+        }, 1000)
+        return () => {
+          // react => createElement()
+          return h('div', { style: { color: 'red' }}, state.name + ':' + state.age )
+        }
+      }
+    }
+    /* 组件怎么渲染的, 初始化的流程
+     * vue3有两个包:
+     *  1. runtime-dom:  针对浏览器平台, dom操作
+     *  2. runtime-core: 核心, 渲染用
+     */
+    createApp(App).mount('#app')
   </script>
 </body>
 </html>
