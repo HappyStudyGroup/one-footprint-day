@@ -5,9 +5,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>vue3响应式</title>
+  <style>*{margin: 0;box-sizing: border-box;}</style>
 </head>
 <body>
-  <div id="app"></div>
+  <div style="height: 100vh;display: flex;">
+    <div style="border:1px solid #f00;">left</div>
+    <div style="flex:1;display: flex;flex-direction: column;overflow: hidden;">
+      <div style="border:1px solid #0f0;flex-shrink:0;">
+        right top
+        <div>asfsdfsdf</div>
+        <div>asfsdfsdf</div>
+        <div>asfsdfsdf</div>
+        <div>asfsdfsdf</div>
+      </div>
+      <div style="border:1px solid #00f;flex:1;overflow-y: scroll;position: relative;">
+        <div id="app"></div>
+        <div style="height: 100vh;"></div>
+        <div style="border:1px solid orange;height:20px;position:sticky;bottom: 0;left: 0;right: 0;">right bottom</div>
+      </div>
+    </div>
+  </div>
+  
   <!-- <script src="/dist/vue.js"></script>
   <script src="/node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
   <script>
@@ -37,13 +55,37 @@
     let { createApp, reactive, h } = Vue;
     let App = {
       setup() { // 返回一个渲染函数
-        let state = reactive({ name: 'zf', age: 18 }); // proxy
+        let state = reactive({ flag: true }); // proxy
         setTimeout(() => {
-          state.name = '回龙观'
-        }, 1000)
+          state.flag = !state.flag;
+        }, 2000)
         return () => {
           // react => createElement()
-          return h('div', { style: { color: 'red' }}, state.name + ':' + state.age )
+          return state.flag ?
+          h('div', { style: { color: 'red' }, title: 'aaa' }, [
+            h('li', {key: 'A', style: { background: 'white' }},'A' ),
+            h('li', {key: 'B', style: { background: 'white' }},'B' ),
+
+            h('li', {key: 'C', style: { background: 'white' }},'C' ),
+            h('li', {key: 'D', style: { background: 'white' }},'D' ),
+            h('li', {key: 'E', style: { background: 'white' }},'E' ),
+            // h('li', {key: 'Q', style: { background: 'white' }},'Q' ),
+            
+            h('li', {key: 'F', style: { background: 'white' }},'F' ),
+            h('li', {key: 'G', style: { background: 'white' }},'G' ),
+          ]) :
+          h('div', { style: { color: 'blue' }}, [
+            h('li', {key: 'A', style: { background: 'white' }},'A' ),
+            h('li', {key: 'B', style: { background: 'white' }},'B' ),
+
+            h('li', {key: 'D', style: { background: 'white' }},'D' ),
+            h('li', {key: 'E', style: { background: 'white' }},'E' ),
+            h('li', {key: 'C', style: { background: 'white' }},'C' ),
+            h('li', {key: 'H', style: { background: 'white' }},'H' ),
+
+            h('li', {key: 'F', style: { background: 'white' }},'F' ),
+            h('li', {key: 'G', style: { background: 'white' }},'G' ),
+          ])
         }
       }
     }

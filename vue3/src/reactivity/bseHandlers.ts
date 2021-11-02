@@ -12,9 +12,8 @@ function createGetters() {
     }
   
     // 依赖收集
-    console.log(key)
     track(target, key)
-    console.log('此时数据做了获取操作！')
+    console.log(key, '此时数据做了获取操作！')
     if(isObject(res)) { // 当取值是对象时，在进行代理（懒递归）
       return reactive(res)
     }

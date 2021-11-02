@@ -48,7 +48,7 @@ function finishComponentSetup(instance) {
   }else if(!instance.render) {
     // compile(Component.template) 编辑成render函数
   }
-  // vue3兼容vue2的属性 data component watch
+  // vue3兼容vue2的属性 data computed watch
 
   // applyOptions(), vue2和vue3中的setup返回的结果做合并操作
 }

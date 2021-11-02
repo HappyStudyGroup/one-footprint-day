@@ -29,7 +29,7 @@ export default {
     serve({
       open: true,
       openPage: `/public/index.html`,
-      port: 3000,
+      port: 3001,
       contentBase: ''
     })
   ]
