@@ -24,3 +24,11 @@
 * TS核心应用, 数据类型, 接口, 泛型内置类型
 * TS中类型推断, 条件类型, 内置类型, 自定义类型等
 * Vue3应用详解, Vue3+ts项目实战, 全家桶应用及项目中权限处理
+
+#### 5. webpack
+* 安装
+  $ npm install webpack webpack-cli --save-dev
+* 入口(entry)
+* src\index.js
+* webpack.config.js
+* 输出(output)

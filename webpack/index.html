@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>webpack</title>
+</head>
+<body>
+  <img src="https://himg.bdimg.com/sys/portrait/item/pp.1.a74db91d.0Ku4cwz09Ho4dPp982zoRg" alt="">
+  <div id="app"></div>
+  <script>
+    let str = '2[3[abc]2[dd]4[e]]'
+    let isConstant = true; // 是否是连续
+    let renderObj = {};
+    let index = 0
+    function judgeConstant(str) {
+      // 判断 [] 有没有嵌套, []
+      const first = str.indexOf('[') + 1
+      const last = str.indexOf(']')
+      const lastIndex = str.lastIndexOf(']')
+      const content = str.substring(first, last)
+      index = str.substring(0, first - 1) || 1
+      console.log(content, index)
+      isConstant = content.indexOf('[') === -1
+      const restStr = content.indexOf('[') > -1 ? str.substring(first, lastIndex) : str
+      renderObj[index] = {}
+      return restStr
+    }
+    function format (str) {
+      let restStr = judgeConstant(str);;
+      console.log(restStr)
+      while(restStr.indexOf('[') > -1) {
+        const first = restStr.indexOf('[') + 1
+        const last = restStr.indexOf(']')
+        const key = restStr.substring(first, last)
+        const value = restStr.substring(0, first - 1)
+        renderObj[index][key] = value;
+        restStr = restStr.substring(last + 1);
+        console.log(index, first, last, key, value, restStr)
+      }
+    }
+    function render(str) {
+      format(str)
+      let result = ''
+      Object.keys(renderObj).forEach(key => {
+        for(let i = 0; i < key; i++) {
+          result +='--'; // 方便分辨重复
+          if(JSON.stringify(renderObj[key]) !== '{}') {
+            let inner = renderObj[key]
+            Object.keys(inner).forEach(keyI => {
+              for(let i = 0; i < inner[keyI]; i++) {
+                result += `${keyI}`
+              }
+            })
+          }
+        }
+      })
+      console.log(`${str} =>` + result)
+    }
+    render(str)
+  </script>
+</body>
+</html>
