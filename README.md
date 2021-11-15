@@ -32,3 +32,13 @@
 * src\index.js
 * webpack.config.js
 * 输出(output)
+
+#### 6. gulp
+* 安装
+  $ npm install --global gulp-cli
+  $ npm init
+  $ npm install gulp --save-dev
+* gulp 不再支持同步任务
+* Gulp 提供了两个强大的组合方法： series() 和 parallel()，允许将多个独立的任务组合为一个更大的操作。
+  1. 如果需要让任务（task）按顺序执行，请使用 series() 方法
+  2. 如果希望以最大并发来运行的任务（tasks），可以使用 parallel() 方法将它们组合起来
