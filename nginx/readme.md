@@ -1,4 +1,4 @@
-#### nginx的常用命令:
+#### windows nginx的常用命令:
 ```js
 $ start nginx                   // 开启nginx
 $ nginx -s stop                 // 快速关机
@@ -7,11 +7,23 @@ $ nginx -s reload               // 重新加载
 $ nginx -s reopen               // 重新打开日志文件
 
 $ tasklist /fi "imagename eq nginx.exe" // 查看开启的 nginx.exe 列表
+$ taskkill /f /pid 112
+$ nginx -t  // 检验配置文件是否正确
 
 ```
-
-#### 相关配置说明:
-
+```bash
+nginx.conf 配置文件
+A location /api
+B location /api/
+C proxy_pass http://localhost:8000 ||
+D proxy_pass http://localhost:8000/
+四种组合方式区别： 
+1. A+C => 真是访问： http://localhost:8000/api/xxx
+2. A+D => 真是访问： http://localhost:8000/api/xxx
+3. B+C => 真是访问： http://localhost:8000/api/xxx
+*4. B+D => 真是访问： http://localhost:8000/xxx
+```
+#### linux nginx 相关配置说明:
 ##### 下载包在线安装
 ```nginx
 1. 服务器安装工具 yum -> yum search nginx (查看可安装nginx配置) -> yum install nginx
