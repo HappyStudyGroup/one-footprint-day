@@ -53,9 +53,9 @@ export function defineReactive(data, key, value) {
   let childOb = observe(value); // 对结果递归拦截
   let dep = new Dep(); // 每次都会给属性创建一个dep
   Object.defineProperty(data, key, { // 需要给每个属性都增加一个dep
-    get() { 
+    get() {
       if(Dep.target) {
-        dep.depend(); // 3. 让这个属性记住自己的watcher, 同时也让watcher记住这个dep
+        dep.depend(); // 3. 让这个属性自己的dep记住watcher, 同时也让watcher记住这个dep
         // childOb 可能是对象也可能是数组
         if(childOb) { // 如果对数组取值, 就会将当前的watcher和数组进行关联
           childOb.dep.depend();

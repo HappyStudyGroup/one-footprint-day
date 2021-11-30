@@ -1,18 +1,16 @@
 
 export function patch(oldVnode, vnode) {
-  // oldVnode 是一个真实的dom
+  // 初次渲染 oldVnode 是一个真实的dom
 
   const isRealElement = oldVnode.nodeType
   if(isRealElement) {
     // 初次渲染
     const oldElm = oldVnode; // id="app"
-    const parentElm = oldElm.parentNode  // body
-
+    const parentElm = oldElm.parentNode; // body
     let el = createElm(vnode);
     parentElm.insertBefore(el, oldElm.nextSibling); // 将创建的节点插入到原有节点的下一个
     parentElm.removeChild(oldElm);  // 移除老的节点
-    
-    return el
+    return el; // vm.$el
   } else {
     // diff算法
   }
@@ -25,11 +23,11 @@ function createElm (vnode) {// 根据虚拟节点创建真实节点
   if(typeof tag === 'string') {
     // tag 可能是组件, 暂不考虑
     vnode.el = document.createElement(tag); // 用vue的指令时,可以通过vnode拿到真实dom
-    updateProperties(vnode)
+    updateProperties(vnode);
     children.forEach(child => { // 如果有儿子节点, 就递归
       vnode.el.appendChild(createElm(child))
     })
-  }else {
+  } else {
     vnode.el = document.createTextNode(text)
   }
   return vnode.el

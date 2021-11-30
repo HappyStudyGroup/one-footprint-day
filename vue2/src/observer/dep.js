@@ -1,4 +1,4 @@
-// 我们可以把当前的watcher 放大一个全局变量上
+// 我们可以把当前的watcher 放到一个全局变量上
 
 let id = 0;
 class Dep{

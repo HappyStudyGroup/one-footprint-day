@@ -17,7 +17,7 @@ class Watcher {
 
   get() { // 这个方法中会对属性进行取值操作
     pushTarget(this); // 1.Dep.target = watcher
-    this.getter();    // 2.取值
+    this.getter();    // 2.取值更新 vm._update(vm._render())
     popTarget();      // 4.清空watcher
   }
   addDep(dep) {
