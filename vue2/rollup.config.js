@@ -7,10 +7,10 @@ import babel from 'rollup-plugin-babel'
 export default {
   input: './src/index.js',
   output: {
-    file: 'dist/vue.js',
-    name: 'Vue',        // 全局的名字 Vue
     format: 'umd',      // window.Vue
-    sourceMap: true,    // es6-es5
+    name: 'Vue',        // 全局的名字 Vue
+    file: 'dist/umd/vue.js',
+    sourcemap: true,    // es6-es5
   },
   plugins: [
     babel({
@@ -18,9 +18,9 @@ export default {
     }),
     serve({
       open: true,
-      openPage: "/public/index.html",
       port: 3000,
       contentBase: '',              // 以当前文件的根目录为基准
+      openPage: "/public/index.html",
     })
   ]
 }

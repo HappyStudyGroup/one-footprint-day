@@ -1,4 +1,4 @@
-import { nextTick } from "../util/index";
+import { nextTick } from "../util";
 
 let has = {};
 let queue = [];

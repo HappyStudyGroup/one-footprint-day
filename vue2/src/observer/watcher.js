@@ -8,7 +8,6 @@ class Watcher {
     this.cb = cb;
     this.options = options;
     this.id = id++;
-
     this.getter = exprOrFn
     this.deps = [];
     this.depsId = new Set(); // 去重复属性,防止重复监听

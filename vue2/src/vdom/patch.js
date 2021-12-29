@@ -1,7 +1,9 @@
 
 export function patch(oldVnode, vnode) {
+  if(!oldVnode) {
+    return createElm(vnode); // 根据虚拟节点创建元素
+  }
   // 初次渲染 oldVnode 是一个真实的dom
-
   const isRealElement = oldVnode.nodeType
   if(isRealElement) {
     // 初次渲染
@@ -17,11 +19,30 @@ export function patch(oldVnode, vnode) {
 
 }
 
-function createElm (vnode) {// 根据虚拟节点创建真实节点
-  let { tag, data, key, text, children, vm } = vnode;
+function createComponent(vnode) {
+  let i = vnode.data;
+  if((i = i.hook) && (i = i.init)) {
+    /**
+     * init()方法做了两件事:
+     * 1) 创建实例,调用了_init()方法
+     * 2) 手动调用$mount方法,将组件编译成了虚拟DOM
+     */
+    i(vnode);
+  }
+  if(vnode.componentInstance) { // 如果虚拟节点上有组件的实例，说明这个虚拟节点是组件
+    return true
+  }
+  return false
+}
 
+function createElm (vnode) {// 根据虚拟节点创建真实节点
+  let { tag, children, data, key, text, vm } = vnode;
+  
   if(typeof tag === 'string') {
-    // tag 可能是组件, 暂不考虑
+    // 如果是组件，就根据组件创建出组件对应的真实节点
+    if(createComponent(vnode)) {
+      return vnode.componentInstance.$el
+    }
     vnode.el = document.createElement(tag); // 用vue的指令时,可以通过vnode拿到真实dom
     updateProperties(vnode);
     children.forEach(child => { // 如果有儿子节点, 就递归

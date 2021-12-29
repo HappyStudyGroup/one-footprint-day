@@ -20,9 +20,6 @@ const startTagClose = /^\s*(\/?)>/;
  }
 */
 
-let root = null;
-let currentParent;
-let stack = [];
 export function parseHTML(html) {
   function createASTElement(tag, attrs) { // vue3里面支持多个根元素(外层加了一个空元素), vue2只有一个根元素
     return {
@@ -33,6 +30,9 @@ export function parseHTML(html) {
       parent: null
     }
   }
+  let root = null;
+  let currentParent;
+  let stack = [];
   // 根据开始标签,结束标签,文本内容,生成一个ast语法树
   function start(tagName, attrs) {
     let element = createASTElement(tagName, attrs);

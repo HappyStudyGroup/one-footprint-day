@@ -1,3 +1,4 @@
+
 const defaultTagRE = /\{\{((?:.|\r?\n)*?)\}\}/g;
 
 function genProps(attrs) {
@@ -7,6 +8,7 @@ function genProps(attrs) {
     if(attr.name === 'style') {
       let obj = {};
       attr.value.split(';').forEach(item => {
+        if(!item) return; // 处理 style="color:red;"
         let [key, value] = item.split(':');
         obj[key] = value
       })
@@ -15,13 +17,6 @@ function genProps(attrs) {
     str += `${attr.name}: ${JSON.stringify(attr.value)},` // {a: "aaa", b: "bbb", ...}
   }
   return `{${str.slice(0, -1)}}`
-}
-
-function genChildren(el) {
-  const children = el.children;
-  if(children) {
-    return children.map(child => gen(child)).join(',')
-  }
 }
 
 function gen(node) { // 区分是元素还是文本
@@ -56,6 +51,13 @@ function gen(node) { // 区分是元素还是文本
     }else {
       return `_v(${JSON.stringify(text)})`
     }
+  }
+}
+
+function genChildren(el) {
+  const children = el.children;
+  if(children) {
+    return children.map(child => gen(child)).join(',')
   }
 }
 
