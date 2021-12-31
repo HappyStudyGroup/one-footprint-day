@@ -30,6 +30,10 @@ export function renderMixin(Vue) {
  * @param {*} Ctor 组件这个类
  */
 
+export function isSameVnode(oldVnode, newVnode) {
+  return (oldVnode.tag === newVnode.tag) && (oldVnode.key === newVnode.key)
+}
+
 export function createElement(vm, tag, data = {}, ...children) {
   // 组件产生虚拟节点需要把组件的构造函数传入
   // new Ctor().$mount()

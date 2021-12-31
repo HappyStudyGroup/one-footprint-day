@@ -76,7 +76,7 @@ export function parseHTML(html) {
       // 不是开头标签的结尾就一直解析
       while(!(end = html.match(startTagClose)) && (attr = html.match(attribute))) {
         advance(attr[0].length);
-        match.attrs.push({ name: attr[1], value: attr[3] || attr[4] || attr[5] || true });
+        match.attrs.push({ name: attr[1], value: attr[3] || attr[4] || attr[5] || '' });
       }
       if(end) {
         advance(end[0].length);

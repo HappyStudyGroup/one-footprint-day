@@ -5,7 +5,7 @@ function genProps(attrs) {
   let str = ''
   for(let i = 0; i < attrs.length; i++) {
     let attr = attrs[i]; // name, value
-    if(attr.name === 'style') {
+    if(attr.name === 'style' && attr.value) {
       let obj = {};
       attr.value.split(';').forEach(item => {
         if(!item) return; // 处理 style="color:red;"

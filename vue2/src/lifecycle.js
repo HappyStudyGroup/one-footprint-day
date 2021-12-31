@@ -3,20 +3,19 @@ import { patch } from "./vdom/patch";
 
 export function lifecycleMixin (Vue) {
   Vue.prototype._update = function(vnode) {
-    const vm = this;
-    // const prevVnode = vm._vnode;
-    // if(!prevVnode) {
-    //   // 区分是首次渲染还是更新
-    //   vm.$el = patch(vm.$el, vnode)
-    // }else {
-    //   // 那上一次的和本次做对比
-    //   vm.$el = patch(prevVnode, vnode)
-    // }
     // 首次渲染需要用虚拟节点更新真实dom
+    const vm = this;
     // 初始化渲染的时候, 会创建新节点, 将老节点删掉
     // 第一次渲染完毕后, 拿到新的节点, 下次在渲染的时候替换上次渲染的结果
-    // vm._vnode = vnode;
-    vm.$el = patch(vm.$el, vnode); // 组件调用patch会生成$el属性
+
+    // 第一次初始化, 第二次走diff算法
+    const prevVnode = vm._vnode;
+    vm._vnode = vnode; // 保存上一次的虚拟节点
+    if(!prevVnode) {
+      vm.$el = patch(vm.$el, vnode); // 组件调用patch会生成$el属性
+    }else {
+      vm.$el = patch(prevVnode, vnode); // 组件调用patch会生成$el属性
+    }
   }
 }
 

@@ -20,7 +20,7 @@ export default {
       open: true,
       port: 3000,
       contentBase: '',              // 以当前文件的根目录为基准
-      openPage: "/public/index.html",
+      openPage: "/index.html",
     })
   ]
 }

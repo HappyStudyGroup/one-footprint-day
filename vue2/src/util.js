@@ -54,7 +54,7 @@ function mergeHook (parentVal, childVal) {
 LIFECYCLE_HOOKS.forEach(hook => {
   strats[hook] = mergeHook
 })
-strats.data = function () {}
+// strats.data = function () {}
 strats.components = function (parentVal, childVal) {
   const res = Object.create(parentVal);
   if(childVal) {
@@ -105,4 +105,4 @@ function makeUp(str) {
   return (tag) => (map[tag] || false)
 }
 
-export const isReservedTag = makeUp('a,p,div,ul,li,span,input,button');
+export const isReservedTag = makeUp('a,p,div,ul,li,span,input,button,b,textarea');
