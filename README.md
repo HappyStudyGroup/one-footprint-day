@@ -2,11 +2,9 @@
 综合知识学习规划以及进度
 
 #### 1. node
-* Vue响应式原理
-
-
 
 #### 2. vue2 源码分析 + 手写
+>面试技巧: http://zhufengpeixun.com/jiagou/vue-apply/interview-1.html
 >第一周
 * Vue响应式原理, 模板编译原理, 虚拟DOM原理, vue初渲染
 * Vue中生命周期原理, mixin原理, 依赖收集原理, 异步更新原理

@@ -4,6 +4,7 @@ import { initMixin } from "./init"
 import { lifecycleMixin } from "./lifecycle"
 import { renderMixin } from "./vdom/index"
 import { createElm, patch } from './vdom/patch'
+import { stateMixin } from './state'
 
 function Vue(options) {
   /**
@@ -24,8 +25,10 @@ function Vue(options) {
  * 主逻辑非常小,且清晰
  */
 initMixin(Vue);         // 扩展初始化方法 _init() 和 $mount()
-lifecycleMixin(Vue);    // 扩展_update方法
 renderMixin(Vue);       // 扩展_render方法
+lifecycleMixin(Vue);    // 扩展_update方法
+stateMixin(Vue);
+
 initGlobalAPI(Vue)      // 混合全局的api
 
 // let vm1 = new Vue({
