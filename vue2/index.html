@@ -7,11 +7,32 @@
   <title>watch & computed</title>
 </head>
 <body>
-  <div id="app">
-    {{allName}}
-  </div>
+  <div id="app">{{name}}</div>
+  <ul id="test">
+    <li><p>11111111111</p></li>
+    <li><div>22222222<span>12121</span></div></li>
+    <li><span>3333333333</span></li>
+    <li>4444444</li>
+  </ul>
   <script src="/dist/umd/vue.js"></script>
   <script>
+    // 事件委托 代替 循环列表添加事件
+    window.onload = function() {
+      const ul = document.querySelector('#test');
+      ul.onclick = function(ev) {
+        var ev = ev || window.event;
+        var target = ev.target || ev.srcElement;
+        while(target !== ul) {
+          const nodeName = target.nodeName.toLowerCase()
+          if(nodeName === 'li') {
+            console.log(nodeName);
+            break;
+          }
+          console.log('parentNode: ', nodeName, target.parentNode.nodeName.toLowerCase() );
+          target = target.parentNode
+        }
+      }
+    }
     const vm = new Vue({
       el: '#app',
       data() {
@@ -20,34 +41,7 @@
           age: 10
         }
       },
-      watch: {
-        // 默认会在内部立即取值
-        name: [
-          // {  handler: 'handler', sync: false },
-          {  handler: 'handler', sync: true },
-        ]
-      },
-      computed: {
-        // 默认不会在内部立即取值
-        // 依赖的值不变,就不会执行(缓存)
-        // 可用于模板的渲染
-        allName() {
-          console.log('computed: ');
-          return this.name + ' - ' + this.age
-        }
-      },
-      methods: {
-        handler(newV, oldV) {
-          console.log(newV, oldV);
-        }
-      }
     })
-    // 1. 如果监控的key, 对应的值是对象无法获取老状态;
-    // 2. watch一个属性, 可以注册多个监听器
-    // 3. 可以写成handler的格式, 监听methods中的方法和参数传递
-    setTimeout(() => {
-      vm.name = 'zs'
-    }, 1000)
   </script>
 </body>
 </html>
