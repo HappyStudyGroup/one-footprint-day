@@ -17,6 +17,12 @@
 * VueSSR原理, Vue中单元测试, mocha, chai, jest, karama
 
 #### 3. vue3.0
+##### vue2 和 vue3 的区别
+>1. 对 `Typescript` 支持不友好(所有属性都放在this对象上, 难以推断组建的数据类型)
+>2. 大量的API挂载再Vue对象的原型上, 难以实现 `TreeShaking`
+>3. 跨平台支持不友好
+>4. CompositionAPI, 受 ReactHook 启发
+>5. 对虚拟DOM进行了重写, 对模板的编辑进行了优化操作...
 
 #### 4. ts
 * TS核心应用, 数据类型, 接口, 泛型内置类型
