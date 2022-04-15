@@ -32,5 +32,5 @@ export function mountComponent(vm, el) {
     vm._update(vm._render()); // _render()返回虚拟节点, _update()将虚拟节点变成真实dom
   }
   new Watcher(vm, updateComponent, () => {}, true);  // updateComponent(), true 表示是渲染watcher
-
+  callHook(vm, 'mounted')
 }

@@ -38,7 +38,7 @@ export function initMixin(Vue) {
       // 如何将模板编译成render函数
       options.render = compileToFunctions(template);
     }
-
+    callHook(vm, 'beforeMount')
     mountComponent(vm, el); // 组件挂载
   }
 }

@@ -25,8 +25,23 @@ function Vue(options) {
  * 主逻辑非常小,且清晰
  */
 initMixin(Vue);         // 扩展初始化方法 _init() 和 $mount()
-renderMixin(Vue);       // 扩展_render方法
+/**
+ * 定义 事件相关的 方法：
+ *   Vue.prototype.$on
+ *   Vue.prototype.$once
+ *   Vue.prototype.$off
+ *   Vue.prototype.$emit
+ */
+//  eventsMixin(Vue);   // 源码中的事件初始化
+/**
+ * 定义：
+ *   Vue.prototype._update
+ *   Vue.prototype.$forceUpdate
+ *   Vue.prototype.$destroy
+ */
 lifecycleMixin(Vue);    // 扩展_update方法
+// 解析组件的插槽信息，得到 vm.$slot,处理渲染函数（_render）,得到 vm.$createElement 方法，即 h 函数
+renderMixin(Vue);       // 扩展_render / $nextTick方法 
 stateMixin(Vue);
 
 initGlobalAPI(Vue)      // 混合全局的api
