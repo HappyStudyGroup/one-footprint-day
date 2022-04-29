@@ -70,7 +70,7 @@
     const submit = document.getElementById(('submit'));
     btn.onclick = async function () {
       console.log('开始连接...')
-      const { list = [] } = await http('get', 'http://192.168.110.96:3434/api')
+      const { list = [] } = await http('get', 'http://192.168.43.54:3434/api')
       console.log(list)
       if(list.length) {
         name.value = list[0]['user_name'];
@@ -83,7 +83,7 @@
 
     submit.onclick = async function() {
       console.log('开始新增数据...')
-      const { list = [] } = await http('get', 'http://192.168.110.96:3434/add')
+      const { list = [] } = await http('get', 'http://192.168.43.54:3434/add')
       console.log('新增结束...')
     }
 
