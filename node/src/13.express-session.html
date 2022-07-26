@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>express-session 操作数据库</title>
+  <script src="https://cdn.staticfile.org/jquery/1.10.0/jquery.min.js"></script>
+</head>
+</head>
+<body>
+  <h2>首页</h2>
+  <button id="btnLogout">退出登录</button>
+  <script>
+    $(function () {
+      $.ajax({
+        type: 'get',
+        url: 'http://127.0.0.1/api/username',
+        success: function(res) {
+          if(res.status === 0) {
+            alert('欢迎, ' + res.username);
+          }else {
+            alert("未登录, 请登录之后在执行其他操作!")
+            window.location.href = "./13.login.html";
+          }
+        }
+      })
+      $('#btnLogout').on('click', function() {
+        $.ajax({
+          type: 'post',
+          url: 'http://127.0.0.1/api/logout',
+          success: function(res) {
+            if(res.status === 0) {
+              alert('退出登录' );
+              location.href = "./13.login.html"
+            }
+          }
+        })
+      })
+    })
+  </script>
+</body>
+</html>

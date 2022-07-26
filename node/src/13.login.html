@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>login</title>
+  <script src="https://cdn.staticfile.org/jquery/1.10.0/jquery.min.js"></script>
+</head>
+</head>
+<body>
+  <button id="btnLogin">立即登录</button>
+  <script>
+    $(function () {
+      $('#btnLogin').on('click', function() {
+        $.ajax({
+          type: 'post',
+          url: 'http://127.0.0.1/api/login',
+          data: { username: 'admin', password: '000000' },
+          success: function(res) {
+            if(res.status === 0) {
+              console.log('登录成功', res);
+              window.location.href = "./13.express-session.html";
+            }
+          }
+        })
+      })
+    })
+  </script>
+</body>
+</html>

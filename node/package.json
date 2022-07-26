@@ -1,12 +1,34 @@
 {
+  "mame": "nodejs-learning",
+  "author": "Hisun",
+  "description": "NodeJS入门学习",
+  "private": true,
   "dependencies": {
     "body-parser": "^1.19.0",
     "commander": "^8.1.0",
-    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-jwt": "^7.7.5",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
     "mysql": "^2.18.1",
-    "node-media-server": "^2.3.9",
     "node-rtsp-stream": "^0.0.9",
-    "os": "^0.1.2"
-  }
+    "os": "^0.1.2",
+    "progress": "^2.0.3"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "cowsay": "^1.5.0",
+    "events": "^3.3.0",
+    "http": "^0.0.1-security"
+  },
+  "engines": {
+    "node": ">= 8.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }

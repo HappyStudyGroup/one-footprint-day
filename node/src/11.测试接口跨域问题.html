@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试接口跨域问题</title>
+  <script src="https://cdn.staticfile.org/jquery/1.10.0/jquery.min.js"></script>
+</head>
+<body>
+  <button id="btnGet">GET</button>
+  <button id="btnPost">POST</button>
+  <button id="btnPUT">PUT</button>
+  <button id="btnDelete">DELETE</button>
+  <button id="btnJSONP">JSONP</button>
+  <script>
+    /**
+     * 解决跨域问题的方案:
+     * 1. CORS 主流的解决方案;
+     * 2. JSONP 有缺陷的解决方案,只支持 get 请求;
+     * 
+     * 使用CROS:
+     * 1. npm install cors 安装中间件
+     * 2. const cors = require('cros') // 导入
+     * 3. app.use(cros) // 配置中间件
+    */
+    $(function() {
+      // 1. 测试GET接口
+      $('#btnGet').on('click', function() {
+        $.ajax({
+          type: 'get',
+          url: 'http://127.0.0.1/api/get',
+          data: { name: '张三', age: 18 },
+          success: function(res) {
+            console.log(res);
+          }
+        })
+      })
+
+      // 2. 测试POST接口
+      $('#btnPost').on('click', function() {
+        $.ajax({
+          type: 'post',
+          url: 'http://127.0.0.1/api/post',
+          data: { bookname: '水浒传', author: '施耐庵' },
+          success: function(res) {
+            console.log(res);
+          }
+        })
+      })
+      // 3. 测试PUT接口
+      $('#btnPUT').on('click', function() {
+        $.ajax({
+          type: 'put',
+          url: 'http://127.0.0.1/api/put',
+          data: { bookname: '更新', author: '自定义' },
+          success: function(res) {
+            console.log(res);
+          }
+        })
+      })
+      // 4. 测试DELETE接口
+      $('#btnDelete').on('click', function() {
+        $.ajax({
+          type: 'delete',
+          url: 'http://127.0.0.1/api/delete',
+          data: { bookname: '删除', author: '自定义' },
+          success: function(res) {
+            console.log(res);
+          }
+        })
+      })
+      // 5. 测试btnJSONP
+      $('#btnJSONP').on('click', function() {
+        $.ajax({
+          type: 'get',
+          url: 'http://127.0.0.1/api/jsonp',
+          // params: { callback: '' },
+          dataType: 'jsonp',
+          success: function(res) {
+            console.log(res);
+          }
+        })
+      })
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>canvas</title>
+  <style>
+    *{padding: 0;margin: 0;}
+    .test{
+      color: red;
+      background: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="test">测试文案</div>
+  <canvas id="myCanvas"></canvas>
+  <script>
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.arc(100, 100, 50, 0, Math.PI, true)
+    ctx.fillStyle = '#f00'
+    ctx.fill()
+    ctx.closePath();
+    ctx.beginPath();
+    ctx.arc(100, 100, 50, 0, Math.PI, false)
+    ctx.fillStyle = '#0f0'
+    ctx.fill()
+  </script>
+</body>
+</html>
