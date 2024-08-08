@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>摄像头录制视频</title>
+    <style>
+      video {
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>摄像头录制视频</h1>
+    <p id="content_des"></p>
+    <video id="video" autoplay style="border: 1px solid red"></video>
+    <button id="startButton">开始录制</button>
+    <script type="text/javascript">
+      // 获取页面元素
+      const startButton = document.getElementById("startButton")
+
+      // 当点击“开始录制”按钮时，开始录制
+      startButton.addEventListener("click", () => {
+        const video = document.getElementById("video")
+        const content_des = document.getElementById("content_des")
+        // 媒体设备约束
+        if (navigator.mediaDevices.getUserMedia) {
+          const constraints = {
+            video: { facingMode: { exact: "environment" } }, // 后置摄像头
+          }
+
+          navigator.mediaDevices
+            .getUserMedia(constraints)
+            .then(function (stream) {
+              if ("srcObject" in video) {
+                video.srcObject = stream
+              } else {
+                // 老的浏览器可能没有srcObject
+                video.src = window.URL.createObjectURL(stream)
+              }
+              video.play() // 播放视频流
+            })
+            .catch(function (error) {
+              content_des.innerText = JSON.stringify(error)
+              console.log("获取视频流出错: ", error)
+            })
+        } else {
+          alert("你的浏览器不支持getUserMedia API")
+        }
+      })
+    </script>
+  </body>
+</html>

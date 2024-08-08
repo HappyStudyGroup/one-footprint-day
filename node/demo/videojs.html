@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>videojs</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.net/video.js/8.10.0/alt/video-js-cdn.min.css">
+  <style>
+    #my-player{
+      display: block;
+      margin: 50px auto;
+      width: 80%;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <video id="my-player" class="video-js vjs-default-skin vjs-big-play-centered"></video>
+  </div>
+  <script src="https://cdn.staticfile.net/flv.js/1.6.2/flv.min.js"></script>
+  <script src="https://cdn.staticfile.net/video.js/8.10.0/alt/video.core.min.js"></script>
+  <script src="./utils/videojs-flvjs.js"></script>
+  <!-- <script src="./utils/flv-tech.js">
+    videojs.registerTech('Flvjs', FlvJsTech)
+  </script> -->
+  <script>
+    let videoPlayer
+    playVideo()
+    function playVideo () {
+      if (videoPlayer) {
+        videoPlayer.dispose()
+      }
+      videoPlayer = videojs(
+        document.getElementById('my-player'),
+        {
+          autoplay: true,
+          muted: true,
+          loop: true,
+          techOrder: ["html5", "flvjs"], // 兼容顺序
+          flvjs: {
+            mediaDataSource: {
+              isLive: true,
+              cors: true,
+              withCredentials: false
+            }
+          },
+          sources: [
+            {
+              src: '/response.flv',
+              // src: 'http://localhost:3010',
+              type: "video/x-flv"
+            }
+          ]
+        },
+        () => {
+          videoPlayer.log('play.....')
+        }
+      )
+    }
+  </script> 
+</body>
+</html>

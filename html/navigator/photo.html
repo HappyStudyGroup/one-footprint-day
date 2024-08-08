@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>JavaScript调用摄像头拍照、录制</title>
+  </head>
+  <body>
+    <video id="preview" autoplay></video>
+    <canvas id="canvas" style="display: none"></canvas>
+    <img id="photo" alt="Photo" style="display: none" />
+    <button id="takePhotoButton">拍照</button>
+
+    <video id="recording" controls style="display: none"></video>
+    <button id="startRecordingButton">开始录制</button>
+    <button id="stopRecordingButton">停止录制</button>
+
+    <script>
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then(function (stream) {
+            var videoElement = document.getElementById("preview")
+            var canvasElement = document.getElementById("canvas")
+            var context = canvasElement.getContext("2d")
+            var imageElement = document.getElementById("photo")
+            var takePhotoButton = document.getElementById("takePhotoButton")
+
+            videoElement.srcObject = stream
+
+            takePhotoButton.addEventListener("click", function () {
+              context.drawImage(
+                videoElement,
+                0,
+                0,
+                canvasElement.width,
+                canvasElement.height
+              )
+              imageElement.src = canvasElement.toDataURL("image/png")
+              imageElement.style.display = "block"
+
+              // 下载图片
+              var link = document.createElement("a")
+              link.href = imageElement.src
+              link.download = `图片-${new Date().getTime()}.png` // 设置下载文件的文件名
+              link.click()
+            })
+
+            var recordingElement = document.getElementById("recording")
+            var startRecordingButton = document.getElementById(
+              "startRecordingButton"
+            )
+            var stopRecordingButton = document.getElementById(
+              "stopRecordingButton"
+            )
+
+            var mediaRecorder
+
+            startRecordingButton.addEventListener("click", function () {
+              var chunks = []
+              mediaRecorder = new MediaRecorder(stream)
+
+              mediaRecorder.ondataavailable = function (e) {
+                chunks.push(e.data)
+              }
+              
+              mediaRecorder.onstop = function () {
+                console.log(chunks);
+                var blob = new Blob(chunks, { type: "video/webm" })
+                recordingElement.src = URL.createObjectURL(blob)
+
+                // 下载视频
+                var link = document.createElement("a")
+                link.href = URL.createObjectURL(
+                  new Blob(chunks, { type: "video/mp4" })
+                ) //这里可以修改格式 比如我修改为mp4
+                link.download = `视频-${new Date().getTime()}.mp4` // 设置下载文件的文件名
+                link.click()
+              }
+
+              mediaRecorder.start()
+              recordingElement.style.display = "block"
+            })
+
+            stopRecordingButton.addEventListener("click", function () {
+              mediaRecorder.stop()
+            })
+          })
+          .catch(function (error) {
+            console.error("获取摄像头输入流失败:", error)
+          })
+      } else {
+        console.error("浏览器不支持摄像头调用")
+      }
+
+
+      mediaSourceHandler()
+      const mediaSourceHandler = function () {
+        // 假设你已经有了一个 WebSocket 连接用于接收视频流 Blob 数据
+        const ws = new WebSocket('ws://your-server-address');
+        
+        // 创建一个 MediaSource 对象
+        const mediaSource = new MediaSource();
+          
+        // 获取 video 元素并设置 src 属性
+        const video = document.querySelector('video');
+        video.src = URL.createObjectURL(mediaSource);
+          
+        // 当 MediaSource 准备好的时候
+        mediaSource.addEventListener('sourceopen', function() {
+          // 获取 SourceBuffer 对象
+          const sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
+          
+          // 监听 WebSocket 消息
+          ws.addEventListener('message', function(event) {
+            // 假设接收到的是 Blob 数据
+            const blob = event.data;
+          
+            // 将 Blob 数据转换为 ArrayBuffer
+            const reader = new FileReader();
+            reader.addEventListener('load', function() {
+              // 获取 ArrayBuffer 数据
+              const arrayBuffer = reader.result;
+          
+              // 将 ArrayBuffer 数据传递给 SourceBuffer
+              sourceBuffer.appendBuffer(arrayBuffer);
+            });
+            reader.readAsArrayBuffer(blob);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

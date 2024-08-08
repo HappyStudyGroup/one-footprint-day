@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>flvjs</title>
+  <style>
+    #my-player{
+      display: block;
+      margin: 50px auto;
+      width: 80%;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <video id="my-player" preload="auto" muted autoplay type="rtmp/flv"></video>
+  </div>
+  <script src="https://cdn.staticfile.net/flv.js/1.6.2/flv.min.js"></script>
+  <script>
+    let videoPlayer
+    playVideo()
+    function playVideo () {
+      if (videoPlayer) {
+        videoPlayer.destroy()
+      }
+      if (flvjs.isSupported()) {
+        videoPlayer = flvjs.createPlayer({
+          type: 'flv',
+          isLive: true,
+          // url: '/response.flv',//flv格式流地址
+          url: 'http://localhost:3010',//flv格式流地址
+        },{
+          enableWorker: false, //不启用分离线程
+          enableStashBuffer: false, //关闭IO隐藏缓冲区
+          reuseRedirectedURL: true, //重用301/302重定向url，用于随后的请求，如查找、重新连接等。
+          autoCleanupSourceBuffer: true //自动清除缓存
+        })
+        videoPlayer.attachMediaElement(document.getElementById('my-player'));
+        videoPlayer.load(); //加载
+        videoPlayer.play();//播放
+      }
+    }
+  </script>
+</body>
+</html>

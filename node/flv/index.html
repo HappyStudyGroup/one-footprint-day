@@ -9,13 +9,13 @@
 <body>
 
   <script src="https://cdn.bootcss.com/flv.js/1.4.0/flv.min.js"></script>
-  <video id="videoElement" style="width: 80%;" controls="controls"></video>
+  <video id="videoElement" style="width: 80%;" muted controls="controls"></video>
   <script>
     if (flvjs.isSupported()) {
       var videoElement = document.getElementById('videoElement');
       var flvPlayer = flvjs.createPlayer({
         type: 'flv',
-        url: 'http://127.0.0.1:8000/live/abc.flv'
+        url: 'ws://127.0.0.1:8880/rtsp/1?url=rtsp://172.16.13.191:8554/rdk'
       });
       flvPlayer.attachMediaElement(videoElement);
       flvPlayer.load();
